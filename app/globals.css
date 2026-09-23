@@ -1,0 +1,333 @@
+@import "tailwindcss";
+
+/*
+ * ROUND design tokens — cream paper, navy ink, hunter green, a red stripe.
+ * Editorial, a little collegiate, lots of air. Photos and question cards stay
+ * deep and saturated so they read as pictures against the paper.
+ */
+:root {
+  /* Paper */
+  --paper: #f3ede0;
+  --paper-2: #eae2d1;
+  --paper-3: #dfd4be;
+  --surface: #fbf8f1;
+  --surface-2: #f7f2e7;
+  --surface-3: #efe8d9;
+  --hairline: rgba(22, 33, 58, 0.1);
+  --hairline-strong: rgba(22, 33, 58, 0.18);
+
+  /* Ink */
+  --ink: #16213a;
+  --ink-70: rgba(22, 33, 58, 0.72);
+  --ink-55: rgba(22, 33, 58, 0.56);
+  --ink-35: rgba(22, 33, 58, 0.38);
+  --ink-20: rgba(22, 33, 58, 0.22);
+  --ink-10: rgba(22, 33, 58, 0.1);
+  --ink-6: rgba(22, 33, 58, 0.06);
+
+  /* Brand colors */
+  --pine: #1f4a3c;
+  --pine-bright: #2e6b52;
+  --pine-deep: #143327;
+  --tomato: #d9482b;
+  --tomato-bright: #e8694a;
+  --tomato-deep: #b0361d;
+  --butter: #f2c14e;
+  --navy: #16213a;
+  --navy-bright: #2e4470;
+
+  /* Text that sits on photos and question cards. */
+  --on-photo: #f6f1e7;
+  --on-photo-80: rgba(246, 241, 231, 0.82);
+  --on-photo-60: rgba(246, 241, 231, 0.62);
+
+  /* Legacy names, kept so nothing breaks: background/foreground semantics. */
+  --chalk-black: var(--paper);
+  --chalk: var(--ink);
+  --chalk-70: var(--ink-70);
+  --chalk-55: var(--ink-55);
+  --chalk-35: var(--ink-35);
+  --chalk-20: var(--ink-20);
+  --cobalt: var(--tomato);
+  --cobalt-bright: var(--tomato-bright);
+  --cobalt-deep: var(--tomato-deep);
+  --cobalt-ink: var(--pine-deep);
+
+  /* The tints the question flow walks through (green → navy). */
+  --walk-1: rgba(31, 74, 60, 0.28);
+  --walk-2: rgba(31, 74, 60, 0.22);
+  --walk-3: rgba(46, 107, 82, 0.2);
+  --walk-4: rgba(22, 33, 58, 0.18);
+  --walk-5: rgba(46, 68, 112, 0.18);
+
+  --radius-card: 28px;
+  --radius-pill: 999px;
+
+  --tab-height: 72px;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-pine: var(--pine);
+  --color-tomato: var(--tomato);
+  --color-butter: var(--butter);
+  --color-chalk-black: var(--paper);
+  --color-chalk: var(--ink);
+  --color-cobalt: var(--tomato);
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-instrument), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+html {
+  color-scheme: light;
+  background: var(--paper);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.01em;
+  min-height: 100dvh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea { user-select: text; -webkit-user-select: text; }
+
+/* Layout helpers */
+.screen {
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+.screen-with-tabs {
+  padding-bottom: calc(var(--tab-height) + env(safe-area-inset-bottom, 0px) + 24px);
+}
+
+.serif { font-family: var(--font-serif); letter-spacing: -0.01em; }
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-55);
+  font-weight: 600;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 0 rgba(22, 33, 58, 0.04), 0 12px 32px -20px rgba(22, 33, 58, 0.25);
+}
+
+/* Pressable — everything tappable gets an immediate press state. */
+.pressable {
+  transition: transform 120ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 120ms ease, background-color 160ms ease, border-color 160ms ease;
+  will-change: transform;
+}
+.pressable:active { transform: scale(0.97); }
+
+/* Buttons */
+.btn-primary {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.btn-cobalt, .btn-accent {
+  background: var(--tomato);
+  color: var(--on-photo);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+}
+.btn-pine {
+  background: var(--pine);
+  color: var(--on-photo);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+}
+.btn-ghost {
+  background: var(--ink-6);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+}
+
+/* Photo placeholder grain */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+
+/* Hide scrollbars on horizontal scrollers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Horizontal snap carousel (results) */
+.snap-x { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.snap-x > * { scroll-snap-align: center; scroll-snap-stop: always; }
+
+/* Ring mark */
+.ring-mark {
+  width: 22px; height: 22px; border-radius: 999px;
+  border: 2.5px solid var(--tomato);
+  box-shadow: inset 0 0 0 2px var(--paper);
+}
+
+/* Tab bar ground: paper by default, night when a dark screen (data-pitch) is up. */
+.tabbar-ground { background: linear-gradient(180deg, rgba(243,237,224,0) 0%, rgba(243,237,224,0.94) 30%, #f3ede0 100%); }
+.tabbar-item { color: var(--ink-35); }
+.tabbar-item[aria-current="page"] { color: var(--ink); }
+body:has([data-pitch]) .tabbar-ground { background: linear-gradient(180deg, rgba(22,33,58,0) 0%, rgba(22,33,58,0.94) 30%, #16213a 100%); }
+body:has([data-pitch]) .tabbar-item { color: rgba(246,241,231,0.45); }
+body:has([data-pitch]) .tabbar-item[aria-current="page"] { color: var(--paper); }
+
+/* Story / blog prose */
+.story p { margin: 0 0 1em; }
+.story p:last-child { margin-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* The map — a light, slightly warm basemap; markers in brand colors on top. */
+.maplibregl-canvas {
+  filter: sepia(0.28) saturate(0.7) brightness(1.02) contrast(0.98);
+}
+.maplibregl-ctrl-attrib {
+  background: rgba(243, 237, 224, 0.75) !important;
+  color: rgba(22, 33, 58, 0.55) !important;
+  font-size: 10px !important;
+}
+.maplibregl-ctrl-attrib a { color: rgba(22, 33, 58, 0.75) !important; }
+.round-marker {
+  width: 12px; height: 12px; border-radius: 999px; padding: 0;
+  background: rgba(22, 33, 58, 0.32);
+  border: 1.5px solid rgba(243, 237, 224, 0.95);
+  cursor: pointer; transition: transform 120ms ease;
+}
+.round-marker:active { transform: scale(0.9); }
+.round-marker[data-kind="saved"] {
+  width: 18px; height: 18px; background: #d9482b; border: 2px solid #f3ede0;
+  box-shadow: 0 0 0 4px rgba(217, 72, 43, 0.22);
+}
+.round-marker[data-kind="been"] {
+  width: 16px; height: 16px; background: #16213a; border: 2px solid #f3ede0;
+}
+
+/* The evening dial (a range input with a filled track) */
+.dial {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 36px;
+  background: transparent;
+}
+.dial::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(246,241,231,0.95) var(--pct), rgba(246,241,231,0.22) var(--pct));
+}
+.dial::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(246,241,231,0.22);
+}
+.dial::-moz-range-progress {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(246,241,231,0.95);
+}
+.dial::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  margin-top: -11px;
+  border-radius: 999px;
+  background: #f6f1e7;
+  border: 3px solid #16213a;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+.dial::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #f6f1e7;
+  border: 3px solid #16213a;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+}
+
+/* Neighborhood labels on the real map */
+.hood-label {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  background: rgba(251, 248, 241, 0.92);
+  border: 1px solid rgba(22, 33, 58, 0.18);
+  border-radius: 999px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(22, 33, 58, 0.08);
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+.hood-label[data-selected="1"] {
+  background: var(--tomato);
+  border-color: var(--tomato);
+  color: var(--on-photo);
+  transform: scale(1.06);
+}
+
+/* ROUND Studio (the private side): sidebar on a laptop, a tab strip on a phone. */
+.studio { min-height: 100dvh; display: flex; flex-direction: column; }
+.studio-side { border-bottom: 1px solid var(--hairline); background: var(--surface-2); }
+.studio-nav { display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px 12px; }
+.studio-link {
+  flex-shrink: 0; border-radius: 999px; padding: 8px 14px;
+  border: 1px solid var(--hairline); color: var(--ink); background: var(--surface);
+}
+.studio-link[data-on="1"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.studio-main { width: 100%; max-width: 32rem; margin: 0 auto; }
+.studio-main.studio-wide { max-width: 32rem; }
+@media (min-width: 1024px) {
+  .studio { flex-direction: row; align-items: stretch; }
+  .studio-side {
+    position: sticky; top: 0; height: 100dvh; width: 250px; flex-shrink: 0;
+    display: flex; flex-direction: column; border-bottom: 0; border-right: 1px solid var(--hairline);
+  }
+  .studio-nav { flex-direction: column; gap: 4px; overflow: visible; padding: 20px 14px 0; }
+  .studio-link { border-radius: 14px; padding: 10px 12px; border-color: transparent; background: transparent; }
+  .studio-link:hover { background: var(--ink-6); }
+  .studio-link[data-on="1"] { background: var(--ink); color: var(--paper); }
+  .studio-main { max-width: 44rem; margin: 0; padding: 0 40px; }
+  .studio-main.studio-wide { max-width: 78rem; }
+  .studio-main .screen { padding-left: 0; padding-right: 0; }
+}
+.studio-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.studio-table th { text-align: left; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-55); font-weight: 600; padding: 10px 10px; border-bottom: 1px solid var(--hairline-strong); white-space: nowrap; }
+.studio-table td { padding: 10px 10px; border-bottom: 1px solid var(--hairline); vertical-align: middle; }
+.studio-table tr:hover td { background: rgba(22, 33, 58, 0.03); }
+.stat { border: 1px solid var(--hairline); border-radius: 20px; padding: 14px 16px; background: var(--surface); }
+.stat .n { font-family: var(--font-serif); font-size: 34px; line-height: 1; letter-spacing: -0.02em; }
